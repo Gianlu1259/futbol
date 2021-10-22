@@ -5,10 +5,8 @@ const userSchema=moongose.Schema({
         type:String,
         require:true
     },
-    confirmado:{
-        type:Boolean,
-        require:true
-    }
+    confirmado:Boolean
+    
 })
 
 module.exports=moongose.model('User',userSchema)
