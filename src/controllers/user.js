@@ -27,7 +27,7 @@ function save_user(req,res){
 }
 
 function get_user(req,res){
-    User.find({"confirmado":true}).estimatedDocumentCount().exec((err,count)=>{
+    User.find({"confirmado":true}).count().exec((err,count)=>{
         var count=count;
         Cancha.findOne({},{"_id":0,"precio":1}).exec((err,precio)=>{
             if(err) res.status(500).send({message:'error en el servidor'})
