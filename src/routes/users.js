@@ -7,5 +7,6 @@ var api=express.Router();
 api.post('/register',UserController.save_user);
 api.get('/get_user',UserController.get_user);
 api.put('/update_user/:id',UserController.update_user);
+api.delete('/delete_users',UserController.delete_users)
 
 module.exports=api;

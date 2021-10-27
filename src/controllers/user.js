@@ -83,8 +83,17 @@ function update_user(req,res){
     
 }
 
+function delete_users(req,res){
+    User.deleteMany({}).exec((err,result)=>{
+        if(err) res.status(500).send("error al eliminar los usuarios");
+        if(result) res.status(200).send("se ah eliminado los usuarios con exito!");
+        else{res.status(404).send("no se ah logrado eliminar los usuarios");}
+    })
+}
+
 module.exports={
     save_user,
     get_user,
-    update_user
+    update_user,
+    delete_users
 }
