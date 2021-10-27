@@ -4,28 +4,30 @@ var Cancha=require('../models/cancha');
 function save_cancha(req,res){
     var params=req.body;
     var cancha=new Cancha();
-    if(params.nombre && params.direccion && params.precio && params.cantMax){
+    if(params.nombre && params.direccion && params.precio && params.cantMax && params.horas){
         cancha.nombre=params.nombre;
         cancha.direccion=params.direccion;
         cancha.precio=params.precio;
         cancha.cantMax=params.cantMax;
-    }
-    Cancha.estimatedDocumentCount().exec((err,count)=>{
-        if(count==0){
-            cancha.save((err,CanchaStore)=>{
-                if(err) return res.status(500).send({message:"error al guardar la cancha"});
-                if(CanchaStore){
-                    res.status(200).send({cancha:CanchaStore});
-                }
-                else{
-                    res.status(404).send({message:'no se ah registrado la cancha'});
-                }
-            })
-        }
-        else{
-            res.send({message:"ya existe registrada una cancha, eliminela antes de crear una nueva"});
-        }
-    })      
+        cancha.horas=params.horas
+
+        Cancha.estimatedDocumentCount().exec((err,count)=>{
+            if(count==0){
+                cancha.save((err,CanchaStore)=>{
+                    if(err) return res.status(500).send({message:"error al guardar la cancha"});
+                    if(CanchaStore){
+                        res.status(200).send({cancha:CanchaStore});
+                    }
+                    else{
+                        res.status(404).send({message:'no se ah registrado la cancha'});
+                    }
+                })
+            }
+            else{
+                res.send({message:"ya existe registrada una cancha, eliminela antes de crear una nueva"});
+            }
+        })
+    }      
 }
 
 function get_cancha(req,res){
