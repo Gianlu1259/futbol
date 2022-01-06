@@ -1,0 +1,7 @@
+GET https://futbolito.herokuapp.com/api/get_user HTTP/1.1
+Content-Type:application/json
+
+{
+    //"name":"maluma",
+    "confirmado":true
+}
