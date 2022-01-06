@@ -53,6 +53,18 @@ function get_user(req,res){
     })
 }
 
+<<<<<<< HEAD
+=======
+function delete_user(req,res){
+    var user_id=req.body._id;
+    User.findByIdAndDelete(user_id).exec((err,result)=>{
+        if(err) res.status(500).send("error al eliminar usuario");
+        if(result) res.status(200).send("se ah eliminado el usuario con exito!");
+        else{res.status(404).send("no se ah logrado eliminar");}
+    })
+}
+
+>>>>>>> developer
 function update_user(req,res){
     var user_id=req.params.id;
     var update=req.body;
@@ -95,5 +107,10 @@ module.exports={
     save_user,
     get_user,
     update_user,
+<<<<<<< HEAD
     delete_users
+=======
+    delete_users,
+    delete_user
+>>>>>>> developer
 }
