@@ -17,14 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     "jsonwebtoken": "^8.5.1",
->>>>>>> developer
-=======
-    "jsonwebtoken": "^8.5.1",
->>>>>>> e5857ddb5c1062daa138f2619cb8cb1a094b8c10
     "knex": "^0.95.4",
     "mongoose": "^6.0.11",
     "pg": "^8.6.0"
