@@ -10,7 +10,7 @@ controller.register = async(req,res)=>{
     try{
             const {username,email}=req.body;
             userExist = await userService.findOneUsernameEmail(username,email);
-            if(!userExist){
+            if(userExist.success){
                 return res.status(409).json({
                     error:"User already exists"
                 });
@@ -47,7 +47,12 @@ controller.login = async(req,res)=>{
             })
         }
         return res.status(200).json({
-            token: createToken(user._id)
+            token: createToken(user._id),
+            responseUser:{
+                name:user.name,
+                _id:user._id,
+                userName:user.userName,
+            }
         })
     } catch (error) {
         return res.status(500).json({

@@ -42,11 +42,11 @@ service.findOneUsernameEmail = async(username, email)=>{
         success:true,
         content:{}
     }
+    
     try {
         const user = await UserRegisteredModel.findOne({
-            $or:[{username:username},{email:email}]
+            $or:[{userName:username},{email:email}]
         }).exec();
-        
         if(!user){
             serviceResponse= {
                 success:false,
@@ -72,7 +72,7 @@ service.register = async ({username, email, password,name,photo})=>{
     }
     try {
         const user = new UserRegisteredModel({
-            username:username,
+            userName:username,
             email:email,
             password:password,
             name:name,
@@ -108,6 +108,31 @@ service.verifyLoginFields=({identifier,password})=>{
         return serviceResponse;
     }
     return serviceResponse;
+}
+
+
+service.findOneById= async(_id)=>{
+    let serviceResponse = {
+        success: true,
+        content: {}
+    }
+    try {
+        const user = await UserModel.findById(_id).select("-hashedPassword").exec(); //trae toda la informacion del usuario con la id dada menos la contraseña 
+        if(!user){
+            serviceResponse = {
+                success:false,
+                content: {
+                    error:"User not found"
+                }
+            };
+        }
+        else{
+            serviceResponse.content = user; 
+        }
+        return serviceResponse;
+    } catch (error) {
+        throw error;
+    }
 }
 
 module.exports = service;
