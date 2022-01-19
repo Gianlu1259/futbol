@@ -1,29 +1,79 @@
-var User=require('../models/user');
-var Cancha=require('../models/cancha');
+const User=require('../models/user');
+const Cancha=require('../models/cancha');
+const userService = require('../services/userService');
+const canchaService = require('../services/canchaServices')
 
 //registro
-function save_user(req,res){
-    var params=req.body//guardo todos los datosque recibo por parametro
-    var user=new User();
-    User.find({"confirmado":true}).count().exec((err,count)=>{
-        Cancha.findOne().exec((err,cancha)=>{
-            if(count<cancha["cantMax"]){
-                if(params.name){
-                    user.name=params.name
-                    user.confirmado=params.confirmado
-                    user.save((err,UserStored)=>{
-                        if(err) return res.status(500).send({message:"error al guardar usuario"});
-                        if(UserStored) return res.status(200).send({user:UserStored});
-                        else{
-                            res.status(404).send({message:'no se ah registrado el usuario'});
-                        }
-                    })
+async function save_user(req,res){
+    const paramss=req.body//guardo todos los datosque recibo por parametro
+    const usuarioRegistrado = req.user;
+    const {idUsuario,idCancha} = req.params;
+    const existCancha =await canchaService.findOneCancha(idCancha);
+    const existUser =await userService.findOneById(idUsuario);
+    if(!existCancha.success){
+        res.status(404).send(existCancha.content);
+    }
+    if(!existUser.success){
+        res.status(404).send(existUser.content);
+    }
+    const user=new User();
+    if(usuarioRegistrado){
+        const numeroUsuarios =await User.find({cancha:idCancha}).count().exec()
+        if(numeroUsuarios < existCancha.content.cantMax){
+            usuarioRegistrado.inscripto.push(idCancha);
+            const response =await usuarioRegistrado.save();
+            console.log(response)
+            res.status(200).send({message:'se ha registrado el usuario correctamente'});
+        }
+        else res.send({menssage:"se a alcanzado la cantidad maxima de jugadores confirmados, intenta mas tarde"});
+    }
+    else{
+        User.find({"confirmado":true}).count().exec((err,count)=>{
+            Cancha.findOne().exec((err,cancha)=>{
+                if(count<existCancha.content.cantMax){
+                    if(paramss.name){
+                        user.name=paramss.name
+                        user.confirmado=paramss.confirmado
+                        user.inscripto.push(idCancha)
+                        user.save((err,UserStored)=>{
+                            if(err) return res.status(500).send({message:"error al guardar usuario"});
+                            if(UserStored) return res.status(200).send({user:UserStored});
+                            else{
+                                res.status(404).send({message:'no se ah registrado el usuario'});
+                            }
+                        })
+                    }
+                    else res.send({message:"los datos enviados no son validos"});
                 }
-                else res.send({message:"los datos enviados no son validos"});
-            }
-            else res.send({menssage:"se a alcanzado la cantidad maxima de jugadores confirmados, intenta mas tarde"})
+                else res.send({menssage:"se a alcanzado la cantidad maxima de jugadores confirmados, intenta mas tarde"})
+            })
         })
+    }
+    
+}
+
+const get_userNotRegistered = async(req,res)=>{
+    const {idUsuario,idCancha } = req.params;
+    const userExist =await userService.findOneById(idUsuario);
+    if(!userExist.success){
+        return res.status(400).send(userExist.content);
+    }
+    const canchaExist =await canchaService.findOneCancha(idCancha);
+    if(!canchaExist.success){
+        return res.status(400).send(canchaExist.content);
+    }
+    const canchaPertenece =await userExist.content.cancha.map(id=>{
+        if(id===idCancha){
+            return true;
+        }
     })
+    if(!canchaPertenece){
+        return res.status(400).send({message:'the user doesn´t have this cancha'});
+    }
+    const usuarios =await User.find({cancha:idCancha}).exec()
+    return res.status(200).send({usuarios});
+
+
 }
 
 function get_user(req,res){
@@ -105,5 +155,6 @@ module.exports={
     get_user,
     update_user,
     delete_users,
-    delete_user
+    delete_user,
+    get_userNotRegistered
 }

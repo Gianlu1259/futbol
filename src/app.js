@@ -7,8 +7,11 @@ const { get } = require('mongoose');
 var app=express()
 
 //cargar rutas
-var user_routes=require('./routes/users')//aca guardo la url a la que me quiero dirigir
+var user_routes=require('./routes/users')
 var cancha_routes=require('./routes/cancha')
+const auth_routes=require('./routes/auth')
+const cancha_public =require('./routes/canchaPublic');
+const {verifyAuth} = require('./middleware/auth')
 //app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -26,7 +29,9 @@ app.use((req, res, next) => {
 
 
 
-//rutas
+app.use('/api',cancha_public);
+app.use('/api',auth_routes);
+app.use(verifyAuth)
 app.use('/api',user_routes);
 app.use('/api',cancha_routes)
 

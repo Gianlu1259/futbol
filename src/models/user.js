@@ -5,7 +5,13 @@ const userSchema=moongose.Schema({
         type:String,
         require:true
     },
-    confirmado:Boolean
+    confirmado:Boolean,
+    inscripto:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'Cancha'
+        }]
+    }
     
 })
 
