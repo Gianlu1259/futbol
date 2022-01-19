@@ -71,9 +71,10 @@ const get_userNotRegistered = async(req,res)=>{
         return res.status(400).send({message:'the user doesn´t have this cancha'});
     }
     const usuarios =await User.find({cancha:idCancha}).exec()
-    return res.status(200).send({usuarios});
-
-
+    const cantidadUsuarios = usuarios.length
+    const precioCancha = await Cancha.findOne({},{"_id":0,"precio":1}).exec();
+    const valorApagar = precioCancha.precio/cantidadUsuarios;
+    return res.status(200).send({usuarios,pago:valorApagar});
 }
 
 function get_user(req,res){
