@@ -1,33 +1,22 @@
 var Cancha=require('../models/cancha');
+const user = require('../models/user');
+const canchaService = require('../services/canchaServices')
 
 //registro
-function save_cancha(req,res){
+async function save_cancha(req,res){
+    
+    let usuario = req.user
+    if(!usuario){
+        return res.status(404).send({message:'usted no tiene permiso para realizar esta operacion'});
+    }
     var params=req.body;
-    var cancha=new Cancha();
-    if(params.nombre && params.direccion && params.precio && params.cantMax && params.horas){
-        cancha.nombre=params.nombre;
-        cancha.direccion=params.direccion;
-        cancha.precio=params.precio;
-        cancha.cantMax=params.cantMax;
-        cancha.horas=params.horas
-
-        Cancha.estimatedDocumentCount().exec((err,count)=>{
-            if(count==0){
-                cancha.save((err,CanchaStore)=>{
-                    if(err) return res.status(500).send({message:"error al guardar la cancha"});
-                    if(CanchaStore){
-                        res.status(200).send({cancha:CanchaStore});
-                    }
-                    else{
-                        res.status(404).send({message:'no se ah registrado la cancha'});
-                    }
-                })
-            }
-            else{
-                res.send({message:"ya existe registrada una cancha, eliminela antes de crear una nueva"});
-            }
-        })
-    }      
+    const response = await canchaService.saveCancha(usuario,params);
+    if(response.success){
+        return res.status(404).send(response.content);
+    }
+    
+    return res.status(200).send(response.content);
+   
 }
 
 function get_cancha(req,res){

@@ -117,7 +117,7 @@ service.findOneById= async(_id)=>{
         content: {}
     }
     try {
-        const user = await UserModel.findById(_id).select("-hashedPassword").exec(); //trae toda la informacion del usuario con la id dada menos la contraseña 
+        const user = await UserRegisteredModel.findById(_id).select("-hashedPassword").exec(); //trae toda la informacion del usuario con la id dada menos la contraseña 
         if(!user){
             serviceResponse = {
                 success:false,

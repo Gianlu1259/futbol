@@ -1,6 +1,10 @@
 const controller = {}
 const userService = require('../services/userService')
 const {createToken} = require('../utils/JWT')
+const {OAuth2Client} = require('google-auth-library')
+
+const client = new OAuth2Client('766636341826-8382tr10jgd23if06im0vqd0p3d33e5v.apps.googleusercontent.com')
+
 
 controller.register = async(req,res)=>{
     const verifyFieldsRegister = userService.verifyRegisterFields(req.body);
@@ -59,6 +63,57 @@ controller.login = async(req,res)=>{
             error:'Internal server Error'
         })
     }
+}
+
+controller.googleLogin = (req,res)=>{
+    const {tokenId} = req.body;
+    client.verifyIdToken({idToken:tokenId, audience:'766636341826-8382tr10jgd23if06im0vqd0p3d33e5v.apps.googleusercontent.com'}).then(async (response)=>{
+        const {email_verified, name , email, given_name} = response.payload;
+        if(email_verified){
+            const userExist = await userService.findOneUsernameEmail(email,email);
+            const password = email+"queonda";
+            try {
+                if(!userExist.success){
+                    const userRegistered = await userService.register({username:name, email:email, password:password,name:given_name})
+                    if(!userRegistered.success){
+                        return res.status(409).json(userRegistered.content);
+                    }
+                    const userExist = await userService.findOneUsernameEmail(email,email);
+                    const user = userExist.content;
+                    return res.status(200).json({
+                        token: createToken(user._id),
+                        responseUser:{
+                            name:user.name,
+                            _id:user._id,
+                            userName:user.userName,
+                        }
+                        })
+                }
+                const user = userExist.content;
+                return res.status(200).json({
+                    token: createToken(user._id),
+                    responseUser:{
+                        name:user.name,
+                        _id:user._id,
+                        userName:user.userName,
+                    }
+                })
+
+            }
+            catch(error){
+                res.status(404).json({
+                    message:error.message
+                })
+            }
+            
+               
+        }
+        else{
+            res.status(404).json({
+                message:"error email not verifield"
+            })
+        }
+    })
 }
 
 module.exports = controller;

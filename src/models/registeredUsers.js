@@ -23,6 +23,12 @@ const userRegisteredSchema=moongose.Schema({
             type:moongose.Schema.Types.ObjectId,
             ref:'Cancha',
         }]
+    },
+    inscripto:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'Cancha'
+        }]
     }  
 },{
     timestamps:true
