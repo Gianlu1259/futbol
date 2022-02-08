@@ -4,11 +4,9 @@ var canchaSchema=moongose.Schema({
         type:String,
         require:true
     },
-    disponibilidad:Boolean,
+    direccion:String,
     horas:Number,
-    tamaño:Number,
     precio:Number,
     cantMax:Number
-    
 });
-module.exports=moongose.model('Canchaa',canchaSchema);
+module.exports=moongose.model('Cancha',canchaSchema);

@@ -2,6 +2,7 @@ const controller = {}
 const userService = require('../services/userService')
 const {createToken} = require('../utils/JWT')
 const {OAuth2Client} = require('google-auth-library')
+const {verifyToken} = require('../utils/JWT')
 
 const client = new OAuth2Client('766636341826-8382tr10jgd23if06im0vqd0p3d33e5v.apps.googleusercontent.com')
 
@@ -115,5 +116,19 @@ controller.googleLogin = (req,res)=>{
         }
     })
 }
+
+controller.verifyToken =(req,res)=>{
+    const {token} = req.body;
+    const tokenVerifyed = verifyToken(token);
+    if(!tokenVerifyed){
+        return res.status(401).json({
+            error:"invalid token ",
+        });
+    }
+    res.status(200).json({
+        message:"valid token"
+    })
+}
+
 
 module.exports = controller;
