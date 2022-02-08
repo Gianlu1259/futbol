@@ -1,4 +1,4 @@
-var Cancha=require('../models/cancha');
+var Cancha=require('../models/evento');
 const user = require('../models/user');
 const canchaService = require('../services/canchaServices')
 

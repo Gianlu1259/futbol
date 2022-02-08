@@ -1,7 +1,8 @@
 const User=require('../models/user');
-const Cancha=require('../models/cancha');
+const Cancha=require('../models/evento');
 const userService = require('../services/userService');
-const canchaService = require('../services/canchaServices')
+const canchaService = require('../services/canchaServices');
+const res = require('express/lib/response');
 
 //registro
 async function save_user(req,res){
@@ -50,6 +51,13 @@ async function save_user(req,res){
         })
     }
     
+}
+
+const get_user_registered = ()=>{
+    const usuarioRegistrado = req.user;
+    return res.status(200).json({
+        user:usuarioRegistrado
+    })
 }
 
 const get_userNotRegistered = async(req,res)=>{
@@ -157,5 +165,6 @@ module.exports={
     update_user,
     delete_users,
     delete_user,
-    get_userNotRegistered
+    get_userNotRegistered,
+    get_user_registered
 }

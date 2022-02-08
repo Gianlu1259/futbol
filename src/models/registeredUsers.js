@@ -29,7 +29,25 @@ const userRegisteredSchema=moongose.Schema({
             type:moongose.Schema.Types.ObjectId,
             ref:'Cancha'
         }]
-    }  
+    },
+    ubicacion:String,
+    position:{
+        type:moongose.Schema.Types.ObjectId,
+        ref:'Position'
+    },
+    reputacion:Number,
+    followers:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'registeredUser'
+        }]
+    },
+    following:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'registeredUser'
+        }]
+    }
 },{
     timestamps:true
 })

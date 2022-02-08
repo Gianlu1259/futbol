@@ -1,4 +1,4 @@
-const Cancha =require('../models/cancha')
+const Cancha =require('../models/evento')
 const service = {};
 
 service.findOneCancha = async (id) =>{
