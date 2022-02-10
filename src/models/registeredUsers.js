@@ -21,13 +21,13 @@ const userRegisteredSchema=moongose.Schema({
     cancha:{
         type:[{
             type:moongose.Schema.Types.ObjectId,
-            ref:'Cancha',
+            ref:'Evento',
         }]
     },
     inscripto:{
         type:[{
             type:moongose.Schema.Types.ObjectId,
-            ref:'Cancha'
+            ref:'Evento'
         }]
     },
     ubicacion:String,
@@ -47,6 +47,10 @@ const userRegisteredSchema=moongose.Schema({
             type:moongose.Schema.Types.ObjectId,
             ref:'registeredUser'
         }]
+    },
+    negocio:{
+        type:moongose.Schema.Types.ObjectId,
+        ref:'Negocio'
     }
 },{
     timestamps:true

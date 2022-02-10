@@ -23,14 +23,13 @@ async function save_user(req,res){
         if(numeroUsuarios < existCancha.content.cantMax){
             usuarioRegistrado.inscripto.push(idCancha);
             const response =await usuarioRegistrado.save();
-            console.log(response)
             res.status(200).send({message:'se ha registrado el usuario correctamente'});
         }
         else res.send({menssage:"se a alcanzado la cantidad maxima de jugadores confirmados, intenta mas tarde"});
     }
     else{
-        User.find({"confirmado":true}).count().exec((err,count)=>{
-            Cancha.findOne().exec((err,cancha)=>{
+        User.find({inscripto:idCancha}).count().exec((err,count)=>{
+            Cancha.find({_id:idCancha}).exec((err,cancha)=>{
                 if(count<existCancha.content.cantMax){
                     if(paramss.name){
                         user.name=paramss.name
@@ -78,7 +77,7 @@ const get_userNotRegistered = async(req,res)=>{
     if(!canchaPertenece){
         return res.status(400).send({message:'the user doesn´t have this cancha'});
     }
-    const usuarios =await User.find({cancha:idCancha}).exec()
+    const usuarios =await User.find({inscripto:idCancha}).exec()
     const cantidadUsuarios = usuarios.length
     const precioCancha = await Cancha.findOne({},{"_id":0,"precio":1}).exec();
     const valorApagar = precioCancha.precio/cantidadUsuarios;

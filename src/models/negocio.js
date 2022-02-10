@@ -5,9 +5,16 @@ var negocioSchema=moongose.Schema({
         require:true
     },
     direccion:String,
-    horaOpen:Date,
-    horaClose:Date,
-    photo:String
+    horaOpen:String,
+    horaClose:String,
+    photo:String,
+    cancha:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'Cancha'
+        }]
+        
+    }
     
 });
 module.exports=moongose.model('Negocio',negocioSchema);

@@ -1,4 +1,4 @@
-var Cancha=require('../models/evento');
+var Evento=require('../models/evento');
 const user = require('../models/user');
 const canchaService = require('../services/canchaServices')
 
@@ -20,7 +20,7 @@ async function save_cancha(req,res){
 }
 
 function get_cancha(req,res){
-    Cancha.findOne().exec((err,cancha)=>{
+    Evento.findOne().exec((err,cancha)=>{
         if(err) return res.status(500).send({message:"error al devolver la cancha"});
         if(cancha){
             res.status(200).send({cancha:cancha});
@@ -32,7 +32,7 @@ function get_cancha(req,res){
 }
 
 function delete_cancha(req,res){
-    Cancha.deleteOne({}).exec((err,result)=>{
+    Evento.deleteOne({}).exec((err,result)=>{
         if(err) res.status(500).send("error al eliminar la cancha");
         if(result) res.status(200).send("se ah eliminado la cancha con exito!");
         else{res.status(404).send("no se ah logrado eliminar");}

@@ -1,4 +1,4 @@
-const Cancha =require('../models/evento')
+const Evento =require('../models/evento')
 const service = {};
 
 service.findOneCancha = async (id) =>{
@@ -6,18 +6,20 @@ service.findOneCancha = async (id) =>{
         success:true,
         content:{}
     }
-    const cancha =await Cancha.findById(id).exec();
-    if(!cancha){
+    console.log(id)
+    const evento =await Evento.findById(id).exec();
+    
+    if(!evento){
         return serviceResponse= {
             success:false,
             content:{
-                message:"could not find cancha"
+                message:"could not find evento"
             }
         }
     }
     return serviceResponse= {
         success:true,
-        content:cancha
+        content:evento
     }
 }
 
@@ -26,7 +28,7 @@ service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas})=>{
         success:true,
         content:{}
     }
-    const cancha = new Cancha()
+    const cancha = new Evento()
     if(nombre && direccion && precio && cantMax && horas){
         cancha.nombre=nombre;
         cancha.direccion=direccion;
