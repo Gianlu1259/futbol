@@ -1,6 +1,4 @@
 const controller = {};
-const userService = require('../services/userService');
-const userService = require('../services/canchaServices');
 
 controller.registerInCancha = (req,res)=>{
     const {idUsuario,idCancha} = req.body;

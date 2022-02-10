@@ -1,5 +1,5 @@
 const moongose=require('mongoose');
-var canchaSchema=moongose.Schema({
+var eventoSchema=moongose.Schema({
     nombre:{
         type:String,
         require:true
@@ -9,4 +9,4 @@ var canchaSchema=moongose.Schema({
     precio:Number,
     cantMax:Number
 });
-module.exports=moongose.model('Cancha',canchaSchema);
+module.exports=moongose.model('Evento',eventoSchema);

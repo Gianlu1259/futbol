@@ -11,4 +11,4 @@ var canchaSchema=moongose.Schema({
     cantMax:Number
     
 });
-module.exports=moongose.model('Canchaa',canchaSchema);
+module.exports=moongose.model('Cancha',canchaSchema);
