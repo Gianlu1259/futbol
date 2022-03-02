@@ -12,6 +12,7 @@ var cancha_routes=require('./routes/cancha')
 const auth_routes=require('./routes/auth')
 const cancha_public =require('./routes/canchaPublic');
 const negocio_routes = require('./routes/negocio');
+const publication_router = require('./routes/publicaciones')
 const {verifyAuth} = require('./middleware/auth')
 //app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -36,5 +37,6 @@ app.use(verifyAuth);
 app.use('/api',negocio_routes);
 app.use('/api',user_routes);
 app.use('/api',cancha_routes);
+app.use('/api',publication_router);
 
 module.exports=app;

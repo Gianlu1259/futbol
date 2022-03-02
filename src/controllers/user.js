@@ -52,7 +52,7 @@ async function save_user(req,res){
     
 }
 
-const get_user_registered = ()=>{
+const get_user_registered = (req,res)=>{
     const usuarioRegistrado = req.user;
     return res.status(200).json({
         user:usuarioRegistrado
@@ -167,3 +167,4 @@ module.exports={
     get_userNotRegistered,
     get_user_registered
 }
+

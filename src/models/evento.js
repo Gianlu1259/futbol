@@ -8,5 +8,7 @@ var eventoSchema=moongose.Schema({
     horas:Number,
     precio:Number,
     cantMax:Number
+},{
+    timestamps:true
 });
 module.exports=moongose.model('Evento',eventoSchema);
