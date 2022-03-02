@@ -14,6 +14,18 @@ var negocioSchema=moongose.Schema({
             ref:'Cancha'
         }]
         
+    },
+    followers:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'registeredUser'
+        }]
+    },
+    following:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'registeredUser'
+        }]
     }
     
 });

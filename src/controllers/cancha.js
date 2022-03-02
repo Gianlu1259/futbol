@@ -3,7 +3,7 @@ const user = require('../models/user');
 const canchaService = require('../services/canchaServices')
 
 //registro
-async function save_cancha(req,res){
+async function newEvento(req,res){
     
     let usuario = req.user
     if(!usuario){
@@ -40,7 +40,7 @@ function delete_cancha(req,res){
 }
 
 module.exports={
-    save_cancha,
+    newEvento,
     get_cancha,
     delete_cancha
 }

@@ -3,7 +3,7 @@ var CanchaControllers=require('../controllers/cancha')
 var api=express.Router();
 
 
-api.post('/newCancha',CanchaControllers.save_cancha);
+api.post('/newEvento',CanchaControllers.newEvento);
 // api.get('/cancha',CanchaControllers.get_cancha);
 api.delete('/delete_cancha',CanchaControllers.delete_cancha);
 

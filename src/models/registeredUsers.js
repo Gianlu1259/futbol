@@ -24,6 +24,12 @@ const userRegisteredSchema=moongose.Schema({
             ref:'Evento',
         }]
     },
+    publicaciones:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'Publication',
+        }]
+    },
     inscripto:{
         type:[{
             type:moongose.Schema.Types.ObjectId,
@@ -51,6 +57,12 @@ const userRegisteredSchema=moongose.Schema({
     negocio:{
         type:moongose.Schema.Types.ObjectId,
         ref:'Negocio'
+    },
+    negociosFollowing:{
+        type:[{
+            type:moongose.Schema.Types.ObjectId,
+            ref:'Negocio'
+        }]
     }
 },{
     timestamps:true

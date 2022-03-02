@@ -23,7 +23,7 @@ service.findOneCancha = async (id) =>{
     }
 }
 
-service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas})=>{
+service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas,descripcion})=>{
     let serviceResponse= {
         success:true,
         content:{}
@@ -35,6 +35,7 @@ service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas})=>{
         cancha.precio=precio;
         cancha.cantMax=cantMax;
         cancha.horas=horas
+        cancha.descripcion =descripcion
         
         const canchaRespose = await cancha.save();
         if(!canchaRespose){
@@ -48,7 +49,7 @@ service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas})=>{
         // this.findOneCancha()
         usuario.cancha.push(canchaRespose._id);
         usuario.save()
-        serviceResponse.content = {message:"cancha created correctly"}
+        serviceResponse.content = {message:"Evento created correctly"}
         return serviceResponse
 
     }

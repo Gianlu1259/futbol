@@ -1,14 +1,13 @@
 const express = require("express");
 const api=express.Router();
-const controllerNegocio = require('../controllers/negocio')
+const controllerNegocio = require('../controllers/negocio');
 
 api.post('/createNegocio', controllerNegocio.createNegocio);
-api.post('/agregarCancha',(req,res)=>{
-    return res.status(200).json({
-        message:"This api hasn´t been created "
-    })
-});
-
+api.put('/dejarDeSeguir',controllerNegocio.unfollowNegocio)
+api.post('/seguirNegocio', controllerNegocio.followingNegocio);
+api.post('/crearCancha',controllerNegocio.createCancha);
+api.delete('/deleteCancha', controllerNegocio.deleteCancha)
+// api.get('/getFriendsPublication/:num_page',controllerNegocio.getFriendsPublication)
 
 
 module.exports=api;
