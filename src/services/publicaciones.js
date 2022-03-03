@@ -5,7 +5,7 @@ const service = {};
 service.savePublication = async (user,{descripcion,evento}) =>{
     let serviceResponse = {
         success: true,
-        content: {}
+        content: {message:"publication create correctly"}
     }
         if(!descripcion){
             return serviceResponse = {
@@ -46,18 +46,12 @@ service.savePublication = async (user,{descripcion,evento}) =>{
                 }
             }
         }
-        serviceResponse = {
+        return serviceResponse = {
             success: true,
             content: {
-                error:"publication create correctly"
+                message:"publication create correctly"
             }
         }
-        
-        
-        return serviceResponse;
-        
-        
-
 }
 
 

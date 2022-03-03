@@ -23,7 +23,7 @@ service.findOneCancha = async (id) =>{
     }
 }
 
-service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas,descripcion})=>{
+service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas})=>{
     let serviceResponse= {
         success:true,
         content:{}
@@ -35,7 +35,6 @@ service.saveCancha = async(usuario,{nombre,direccion,precio,cantMax,horas,descri
         cancha.precio=precio;
         cancha.cantMax=cantMax;
         cancha.horas=horas
-        cancha.descripcion =descripcion
         
         const canchaRespose = await cancha.save();
         if(!canchaRespose){

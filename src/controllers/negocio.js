@@ -41,17 +41,17 @@ Controller.createNegocio = async (req,res)=>{
 
 Controller.followingNegocio = async(req,res)=>{
     let usuario = req.user;
-    const {idNegocio} = req.body;
-    if(!idNegocio){
+    const {_id} = req.body;
+    if(!_id){
         return res.status(401).json({
-            error:"an idNegocio is necessary"
+            error:"an _id is necessary"
         })
     }
 
-    const isUser = await userService.findOneById(idNegocio);
+    const isUser = await userService.findOneById(_id);
     if(isUser.success){
         isUser.content.followers.push(usuario._id)
-        usuario.following.push(idNegocio);
+        usuario.following.push(_id);
         const responseUser = await isUser.content.save();
         if(!responseUser){
             return res.status(500).json({
@@ -67,14 +67,14 @@ Controller.followingNegocio = async(req,res)=>{
         return res.status(200).json({message:"following correctly"})
     }
 
-    let negocio = await NegocioModel.findById(idNegocio);
+    let negocio = await NegocioModel.findById(_id);
     if(!negocio){
         return res.status(401).json({
-            error:"an idNegocio is expected"
+            error:"an _id is expected"
         })
     }
     negocio.followers.push(usuario._id)
-    usuario.negociosFollowing.push(idNegocio);
+    usuario.negociosFollowing.push(_id);
     const responseNegocio = await negocio.save()
     if(!responseNegocio){
         return res.status(500).json({

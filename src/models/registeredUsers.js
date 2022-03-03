@@ -17,7 +17,6 @@ const userRegisteredSchema=moongose.Schema({
         type:String,
         require:true,
     },
-    photo:String,
     img:String,
     cancha:{
         type:[{
