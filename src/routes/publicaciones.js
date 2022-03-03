@@ -8,3 +8,4 @@ api.get('/getFollowingPublication/:num_page', ControllerPublication.getFriendsPu
 
 
 module.exports=api;
+

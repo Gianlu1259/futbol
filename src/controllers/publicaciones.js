@@ -22,13 +22,22 @@ controller.getFriendsPublication = async (req,res)=>{
     let {num_page} = req.params
     num_page = parseInt(req.params.num_page)
     const skip_page = (num_page-1)*10;
-    const publicationFollowingUsers = await UserModel.find({followers:usuario._id},{publicaciones:1,_id:0}).skip(skip_page).limit(10).exec() 
+    const publicationFollowingUsers = await UserModel.find({followers:usuario._id},{publicaciones:1,_id:1,userName:1,name:1,img:1}).skip(skip_page).limit(10).exec() 
     let listPublication= [];
     for (let index = 0; index < publicationFollowingUsers.length; index++) {
         const user = publicationFollowingUsers[index];
         for (let index = 0; index < user.publicaciones.length; index++) {
             const evento = user.publicaciones[index];
-            listPublication.push(await PublicacionModel.findById(evento).exec())
+            const objetoPublicacion = await PublicacionModel.findById(evento).exec()
+            console.log(user.userName)
+            listPublication.push({
+                _id:user._id,
+                userName:user.userName,
+                name:user.name,
+                img:user.img,
+                publicacion:objetoPublicacion
+
+            })
         }
     }
     res.status(200).json({

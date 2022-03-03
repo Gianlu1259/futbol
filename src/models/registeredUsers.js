@@ -18,6 +18,7 @@ const userRegisteredSchema=moongose.Schema({
         require:true,
     },
     photo:String,
+    img:String,
     cancha:{
         type:[{
             type:moongose.Schema.Types.ObjectId,
@@ -67,6 +68,9 @@ const userRegisteredSchema=moongose.Schema({
 },{
     timestamps:true
 })
+userRegisteredSchema.methods.setImagUrl = ()=>{
+
+}
 
 userRegisteredSchema.virtual("password").set(function(password){
     this.hashedPassword = Crypto.createHmac("sha256",password).digest("hex");
