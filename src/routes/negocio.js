@@ -4,7 +4,7 @@ const controllerNegocio = require('../controllers/negocio');
 
 api.post('/createNegocio', controllerNegocio.createNegocio);
 api.put('/dejarDeSeguir',controllerNegocio.unfollowNegocio)
-api.post('/seguirNegocio', controllerNegocio.followingNegocio);
+api.post('/seguir', controllerNegocio.followingNegocio);
 api.post('/crearCancha',controllerNegocio.createCancha);
 api.delete('/deleteCancha', controllerNegocio.deleteCancha)
 // api.get('/getFriendsPublication/:num_page',controllerNegocio.getFriendsPublication)

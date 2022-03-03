@@ -57,6 +57,7 @@ controller.login = async(req,res)=>{
                 name:user.name,
                 _id:user._id,
                 userName:user.userName,
+                image:user.img,
             }
         })
     } catch (error) {
