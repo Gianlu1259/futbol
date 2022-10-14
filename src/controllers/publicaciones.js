@@ -29,7 +29,6 @@ controller.getFriendsPublication = async (req,res)=>{
         for (let index = 0; index < user.publicaciones.length; index++) {
             const evento = user.publicaciones[index];
             const objetoPublicacion = await PublicacionModel.findById(evento).exec()
-            console.log(user.userName)
             listPublication.push({
                 _id:user._id,
                 userName:user.userName,

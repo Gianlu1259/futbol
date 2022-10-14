@@ -1,7 +1,9 @@
 const User=require('../models/user');
 const Cancha=require('../models/evento');
+const Team = require("../models/teams")
 const userService = require('../services/userService');
 const canchaService = require('../services/canchaServices');
+const serviceTeams = require("../services/teamsService")
 const res = require('express/lib/response');
 
 //registro
@@ -29,19 +31,33 @@ async function save_user(req,res){
     }
     else{
         User.find({inscripto:idCancha}).count().exec((err,count)=>{
-            Cancha.find({_id:idCancha}).exec((err,cancha)=>{
+            Cancha.find({_id:idCancha}).exec(async (err,cancha)=>{
                 if(count<existCancha.content.cantMax){
                     if(paramss.name){
                         user.name=paramss.name
                         user.confirmado=paramss.confirmado
+                        user.rol1 = paramss.rol1
+                        user.rol2 = paramss.rol2
                         user.inscripto.push(idCancha)
+                        if(count+1===existCancha.content.cantMax){
+                            const usersForTeams = await User.find().exec();
+                            usersForTeams.push(user)
+                            const responseTeam = serviceTeams.createTeam(usersForTeams,2);
+                            const teams = new Team();
+                            teams.Team1 = responseTeam.team1;
+                            teams.Team2 = responseTeam.team2;
+                            teams.evento.push(idCancha)
+                            teams.save(err=>{
+                                if(err) return res.status(500).send({message:"error al guardar el equipo"});
+                            })
+                        } 
                         user.save((err,UserStored)=>{
                             if(err) return res.status(500).send({message:"error al guardar usuario"});
                             if(UserStored) return res.status(200).send({user:UserStored});
                             else{
                                 res.status(404).send({message:'no se ah registrado el usuario'});
                             }
-                        })
+                        }) 
                     }
                     else res.send({message:"los datos enviados no son validos"});
                 }
@@ -50,6 +66,15 @@ async function save_user(req,res){
         })
     }
     
+}
+
+const getTeam = async (req,res)=>{
+    const usuarios =await User.find().exec();
+    const responseTeam = serviceTeams.createTeam(usuarios,2);
+    return res.status(200).json({
+        equipo1 : responseTeam.team1,
+        equipo2: responseTeam.team2
+    })
 }
 
 const get_user_registered = (req,res)=>{
@@ -78,10 +103,11 @@ const get_userNotRegistered = async(req,res)=>{
         return res.status(400).send({message:'the user doesn´t have this cancha'});
     }
     const usuarios =await User.find({inscripto:idCancha}).exec()
+    const teams = await Team.find({evento:idCancha})
     const cantidadUsuarios = usuarios.length
     const precioCancha = await Cancha.findOne({},{"_id":0,"precio":1}).exec();
     const valorApagar = precioCancha.precio/cantidadUsuarios;
-    return res.status(200).send({usuarios,pago:valorApagar});
+    return res.status(200).send({usuarios,pago:valorApagar,teams});
 }
 
 function get_user(req,res){
@@ -165,6 +191,7 @@ module.exports={
     delete_users,
     delete_user,
     get_userNotRegistered,
-    get_user_registered
+    get_user_registered,
+    getTeam
 }
 

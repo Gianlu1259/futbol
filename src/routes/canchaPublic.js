@@ -6,6 +6,7 @@ var api=express.Router();
 
 api.post('/partido/:idUsuario/cancha/:idCancha',UserController.save_user);
 api.get('/partido/:idUsuario/cancha/:idCancha',UserController.get_userNotRegistered);
+api.get('/teams', UserController.getTeam);
 api.get('/cancha',CanchaControllers.get_cancha);
 
 

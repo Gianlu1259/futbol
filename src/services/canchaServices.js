@@ -6,7 +6,6 @@ service.findOneCancha = async (id) =>{
         success:true,
         content:{}
     }
-    console.log(id)
     const evento =await Evento.findById(id).exec();
     
     if(!evento){

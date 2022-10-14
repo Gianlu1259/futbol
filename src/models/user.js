@@ -11,6 +11,12 @@ const userSchema=moongose.Schema({
             type:moongose.Schema.Types.ObjectId,
             ref:'Cancha'
         }]
+    },
+    rol1:{
+        type:String,
+    },
+    rol2:{
+        type:String,
     }
     
 })
