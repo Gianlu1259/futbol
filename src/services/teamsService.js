@@ -4,18 +4,32 @@ const TeamService  = {};
 
 TeamService.createTeam = (users, amountTeams)=>{
     const teamsLength = users.length / amountTeams;
+    const lenghtPostition = Math.floor(teamsLength/2)
     let remainignUser = users
     const team1= [];
     const team2 = [];
     remainignUser = sortPlayer(users,team1,team2,"POR",1);
-    remainignUser = sortPlayer(remainignUser,team1,team2,"DEF",Math.floor(teamsLength/2)+1)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"MED",Math.floor(teamsLength/2)+1)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"ATA",Math.floor(teamsLength/2)+1)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"DEF",lenghtPostition)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"MED",lenghtPostition)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"ATA",lenghtPostition)
+    reguleTeams(remainignUser,teamsLength,[team1,team2])
     return {team1,team2}
 }
 
 TeamService.deleteTeam = ()=>{
 
+}
+
+const reguleTeams = (lastUser,teamsLength,teams)=>{
+    lastUser.forEach(user => {
+        teams.forEach(team=>{
+            if(!team.length!==teamsLength){
+                if(team.length<teamsLength){
+                    team.push(user)
+                }
+            }
+        })
+    });
 }
 
 const sortPlayer = (users,team1,team2,rol,countAceptly)=>{
