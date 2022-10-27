@@ -7,10 +7,10 @@ TeamService.createTeam = (users, amountTeams)=>{
     let remainignUser = users
     const team1= [];
     const team2 = [];
-    remainignUser = sortPlayer(users,team1,team2,"arquero",1);
-    remainignUser = sortPlayer(remainignUser,team1,team2,"defensa",Math.floor(teamsLength/2)+1)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"medio",Math.floor(teamsLength/2)+1)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"delantero",Math.floor(teamsLength/2)+1)
+    remainignUser = sortPlayer(users,team1,team2,"POR",1);
+    remainignUser = sortPlayer(remainignUser,team1,team2,"DEF",Math.floor(teamsLength/2)+1)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"MED",Math.floor(teamsLength/2)+1)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"ATA",Math.floor(teamsLength/2)+1)
     return {team1,team2}
 }
 
