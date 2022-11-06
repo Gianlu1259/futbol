@@ -8,10 +8,10 @@ TeamService.createTeam = (users, amountTeams)=>{
     let remainignUser = users
     const team1= [];
     const team2 = [];
-    remainignUser = sortPlayer(users,team1,team2,"POR",1);
-    remainignUser = sortPlayer(remainignUser,team1,team2,"DEF",lenghtPostition)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"MED",lenghtPostition)
-    remainignUser = sortPlayer(remainignUser,team1,team2,"ATA",lenghtPostition)
+    remainignUser = sortPlayer(users,team1,team2,"POR",1,teamsLength);
+    remainignUser = sortPlayer(remainignUser,team1,team2,"DEF",lenghtPostition,teamsLength)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"MED",lenghtPostition,teamsLength)
+    remainignUser = sortPlayer(remainignUser,team1,team2,"ATA",lenghtPostition,teamsLength)
     reguleTeams(remainignUser,teamsLength,[team1,team2])
     return {team1,team2}
 }
@@ -32,29 +32,39 @@ const reguleTeams = (lastUser,teamsLength,teams)=>{
     });
 }
 
-const sortPlayer = (users,team1,team2,rol,countAceptly)=>{
+const sortPlayer = (users,team1,team2,rol,countAceptly,teamsLength)=>{
     let players = users; 
     players.map(user=>{
         if(team1.filter(e => e.rol1 === rol).length < countAceptly && team1.filter(e => e.rol2 === rol).length < countAceptly){
             if(user.rol1===rol){
-                team1.push(user)
-                players = players.filter(play => play._id != user._id);
+                console.log()
+                 if(team1.length!=teamsLength){
+                    team1.push(user)
+                    players = players.filter(play => play._id != user._id);
+                 }
+                
             }
             else if(user.rol2===rol){
-                team1.push(user)
-                players = players.filter(play => play._id != user._id);
+                if(team1.length!=teamsLength){
+                    team1.push(user)
+                    players = players.filter(play => play._id != user._id);
+                } 
             }
         }
     })
     players.map(user=>{
         if(team2.filter(e => e.rol1 === rol).length < countAceptly && team2.filter(e => e.rol2 === rol).length < countAceptly){
             if(user.rol1===rol){
-                team2.push(user)
-                players = players.filter(play => play._id != user._id);
+                if(team2.length!=teamsLength){
+                    team2.push(user)
+                    players = players.filter(play => play._id != user._id);
+                }
             }
             else if(user.rol2===rol){
-                team2.push(user)
-                players = players.filter(play => play._id != user._id);
+                if(team2.length!=teamsLength){
+                    team2.push(user)
+                    players = players.filter(play => play._id != user._id);
+                }
             }
         }
     })
